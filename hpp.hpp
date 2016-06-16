@@ -11,13 +11,18 @@ using namespace std;
 struct Sym {
 	string tag,val;
 	Sym(string,string); Sym(string); virtual void share();
-	vector<Sym*> nest; void push(Sym*);
+	vector<Sym*> nest; void push(Sym*); void pushV(Sym*);
 	virtual string dump(int=0); virtual string head(); string pad(int);
 	virtual string ptr();
+	virtual string flat(int=0); static int X;
+	int arity; string ar();
 };
 
 extern map<string,Sym*> glob;
 extern void glob_init();
+
+struct Term: Sym { Term(string); string head(); };
+struct Var: Sym { Var(string); };
 
 struct Vector: Sym { Vector(); void share(); };
 
