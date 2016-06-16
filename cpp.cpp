@@ -17,6 +17,7 @@ string Sym::dump(int depth) { string S = "\n"+pad(depth)+head();
 	return S; }
 
 Vector::Vector():Sym("vector","[]"){}
+void Vector::share(){}
 
 map<string,Sym*> glob;
 void glob_init(){}

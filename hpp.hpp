@@ -19,7 +19,7 @@ struct Sym {
 extern map<string,Sym*> glob;
 extern void glob_init();
 
-struct Vector: Sym { Vector(); };
+struct Vector: Sym { Vector(); void share(); };
 
 extern int yylex();
 extern int yylineno;
