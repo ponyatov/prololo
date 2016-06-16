@@ -1,3 +1,9 @@
+p(Z,h(Z,W),f(W))
+
+Z(W)
+Z()
+
+.end
 
 skelex = [
 	files = [ src.src log.log ypp.ypp lpp.lpp hpp.hpp cpp.cpp ]
