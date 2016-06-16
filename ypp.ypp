@@ -2,15 +2,16 @@
 #include "hpp.hpp"
 %}
 %defines %union { Sym*o; }
-%token <o> LP RP LQ RQ		/* () [] */
-%token <o> TERM VAR			/* term Variable */
-%token <o> EQ COMMA			/* = , */
-%type <o> ex tv vector
+%token <o> SYM
+%token <o> LP RP COMMA
+%type <o> ex vec
 %%
-REPL : | REPL ex { cout << $2->dump() << endl; } ;
-tv : TERM | VAR ;
-ex : tv | tv LP vector RP	{ $$=$1; $$->push($3); } ;
-vector :					{ $$=new Vector(); }
-	| vector ex				{ $$=$1; $$->push($2); }
-	| vector COMMA ex		{ $$=$1; $$->push($3); } ;
+REPL : | REPL ex	{ cout << $2->dump() << endl; } ;
+ex : SYM
+	| SYM LP vec RP	{ $$=$1; $$->push($3); }
+;
+vec :				{ $$=new Vector(); }
+	| vec ex		{ $$=$1; $$->push($2); }
+	| vec COMMA ex	{ $$=$1; $$->push($3); }
+;
 %%
