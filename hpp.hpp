@@ -2,6 +2,7 @@
 #define _H_HPP
 
 #include <iostream>
+#include <sstream>
 #include <cstdlib>
 #include <vector>
 #include <map>
@@ -10,7 +11,7 @@ using namespace std;
 struct Sym {
 	string val;
 	Sym(string);
-	virtual string dump();
+	virtual string dump(); string ptr();
 };
 
 extern map<string,Sym*> glob;
