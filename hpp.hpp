@@ -18,6 +18,7 @@ struct Sym {
 	virtual Sym* at(Sym*);
 	virtual Sym* flat(); static int X;
 	static string i2s(int);
+	virtual string id();
 };
 
 extern map<string,Sym*> glob;
@@ -26,7 +27,8 @@ extern void glob_init();
 struct Term: Sym { Term(string); string head(); };
 struct Var: Sym { Var(string); };
 
-struct Xn: Sym { Xn(int,Sym*); Sym*term; void share(); string head(); };
+struct Xn: Sym { Xn(Sym*); void share(); string head(); string dump(int);
+	string id(); };
 
 struct Vector: Sym { Vector(); void share(); };
 

@@ -37,16 +37,24 @@ Sym* Fn::at(Sym*o) { return fn(o); }
 int Sym::X=0;
 string Sym::i2s(int N) { ostringstream os; os<<N; return os.str(); }
 
-Xn::Xn(int N,Sym*o):Sym("X",i2s(N)) { term=o; }
+Xn::Xn(Sym*o):Sym("X",i2s(X++)){ push(o); }
 void Xn::share(){}
-string Xn::head() { return tag+val+" = "+term->head(); }
+string Xn::head() { return tag+val+" = "+nest[0]->head(); }
+string Xn::dump(int depth) { return "\n"+pad(depth)+head(); }
+
+string Sym::id() { return tag+":"+val; }
+string Xn::id() { return nest[0]->id(); }
 
 Sym* flat(Sym*o) { return o->flat(); }
 Sym* Sym::flat() { Sym*F = new Sym("","");
-	Sym*P = new Xn(X++,this); F->push(P);
-	Sym*E;
+	Sym* H = new Xn(this); F->push(H);
+	map<string,int> sav;
 	for (auto it=nest.begin(),e=nest.end();it!=e;it++) {
-		Sym* E = new Xn(X++,*it); P->push(E); F->push(E);
+		Sym *Z = (*it)->flat();
+		for (auto zit=Z->nest.begin(),ze=Z->nest.end();zit!=ze;zit++)
+			if (!sav[(*zit)->id()]) {
+				cerr << (*zit)->id() << endl;
+				sav[(*zit)->id()]=1; F->push(*zit); }
 	}
 	return F; }
 
