@@ -14,8 +14,10 @@ struct Sym {
 	vector<Sym*> nest; void push(Sym*); void pushV(Sym*);
 	virtual string dump(int=0); virtual string head(); string pad(int);
 	virtual string ptr();
-	virtual string flat(int=0); static int X;
 	int arity; string ar();
+	virtual Sym* at(Sym*);
+	virtual Sym* flat(); static int X;
+	static string i2s(int);
 };
 
 extern map<string,Sym*> glob;
@@ -24,7 +26,12 @@ extern void glob_init();
 struct Term: Sym { Term(string); string head(); };
 struct Var: Sym { Var(string); };
 
+struct Xn: Sym { Xn(int,Sym*); Sym*term; void share(); string head(); };
+
 struct Vector: Sym { Vector(); void share(); };
+
+typedef Sym*(*FN)(Sym*);
+struct Fn: Sym { Fn(string,FN); FN fn; Sym*at(Sym*); };
 
 extern int yylex();
 extern int yylineno;

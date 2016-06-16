@@ -5,9 +5,11 @@
 %option yylineno
 %%
 #[^\n]*				{}
+^\.end				{yyterminate();}
 \(					TOC(Sym,LP)
 \)					TOC(Sym,RP)
 \,					TOC(Sym,COMMA)
+\@					TOC(Sym,AT)
 [a-z][a-zA-Z0-9_]*	TOC(Term,TERM)
 [A-Z][a-zA-Z0-9_]*	TOC(Var,VAR)
 [ \t\r\n]+			{}

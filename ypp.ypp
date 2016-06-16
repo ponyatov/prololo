@@ -3,14 +3,14 @@
 %}
 %defines %union { Sym*o; }
 %token <o> TERM VAR
-%token <o> LP RP COMMA
+%token <o> LP RP COMMA AT
 %type <o> ex atom vec
 %%
-REPL : | REPL ex		{ cout << $2->dump() << endl;
-						  cout << endl << $2->flat() << endl; } ;
+REPL : | REPL ex		{ cout << $2->dump() << endl; } ;
 atom : TERM | VAR ;
 ex : atom
 	| atom LP vec RP	{ $$=$1; $$->pushV($3); }
+	| ex AT ex			{ $$=$1->at($3); }
 ;
 vec :					{ $$=new Vector(); }
 	| vec ex			{ $$=$1; $$->push($2); }
